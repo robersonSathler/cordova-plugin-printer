@@ -30,13 +30,13 @@
 
     <description>Prints HTML content</description>
 
-    <repo>https://github.com/katzer/cordova-plugin-printer.git</repo>
+    <repo>https://github.com/robersonSathler/cordova-plugin-printer.git</repo>
 
     <keywords>appplant, printer, cordova</keywords>
 
     <license>Apache 2.0</license>
 
-    <author>Sebastián Katzer</author>
+    <author>Roberson Sathler</author>
 
     <!-- cordova -->
     <engines>
