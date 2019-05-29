@@ -21,7 +21,7 @@
  under the License.
 -->
 
-<plugin id="cordova-plugin-printer"
+<plugin id="cordova-plugin-printer-cielo-lio"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         version="0.8.0">
@@ -47,44 +47,8 @@
 
     <!-- interface -->
     <js-module src="www/printer.js" name="Printer">
-        <clobbers target="cordova.plugins.printer" />
+        <clobbers target="cordova.plugins.printer.cielo.lio" />
     </js-module>
-
-    <!-- ios -->
-    <platform name="ios">
-        <config-file target="config.xml" parent="/*">
-            <feature name="Printer">
-                <param name="ios-package" value="APPPrinter"/>
-            </feature>
-        </config-file>
-
-        <header-file src="src/ios/APPPrinter.h" />
-        <source-file src="src/ios/APPPrinter.m" />
-
-        <header-file src="src/ios/APPPrinterInfo.h" />
-        <source-file src="src/ios/APPPrinterInfo.m" />
-
-        <header-file src="src/ios/APPPrinterItem.h" />
-        <source-file src="src/ios/APPPrinterItem.m" />
-
-        <header-file src="src/ios/APPPrinterLayout.h" />
-        <source-file src="src/ios/APPPrinterLayout.m" />
-
-        <header-file src="src/ios/APPPrinterPaper.h" />
-        <source-file src="src/ios/APPPrinterPaper.m" />
-
-        <header-file src="src/ios/APPPrinterRenderer.h" />
-        <source-file src="src/ios/APPPrinterRenderer.m" />
-
-        <header-file src="src/ios/APPPrinterFont.h" />
-        <source-file src="src/ios/APPPrinterFont.m" />
-
-        <header-file src="src/ios/APPPrinterUnit.h" />
-        <source-file src="src/ios/APPPrinterUnit.m" />
-
-        <header-file src="src/ios/UIPrintInteractionController+APPPrinter.h" />
-        <source-file src="src/ios/UIPrintInteractionController+APPPrinter.m" />
-    </platform>
 
     <!-- android -->
     <platform name="android">
@@ -118,13 +82,6 @@
 
         <source-file src="src/android/PrintProxy.java"
             target-dir="src/de/appplant/cordova/plugin/printer" />
-    </platform>
-
-    <!-- windows -->
-    <platform name="windows">
-        <js-module src="src/windows/PrinterProxy.js" name="PrinterProxy">
-            <merges target="" />
-        </js-module>
     </platform>
 
     <!-- browser -->
