@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Iterator;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -223,17 +224,154 @@ public final class Printer extends CordovaPlugin
                 }
             };
 
-            HashMap<String, Integer> alignLeft =  new HashMap<>();
-            alignLeft.put(PrinterAttributes.KEY_ALIGN, PrinterAttributes.VAL_ALIGN_LEFT);
-            alignLeft.put(PrinterAttributes.KEY_MARGIN_TOP, 50);
-            alignLeft.put(PrinterAttributes.KEY_MARGIN_BOTTOM, 50);
-            alignLeft.put(PrinterAttributes.KEY_TYPEFACE, 0);
-            alignLeft.put(PrinterAttributes.KEY_TEXT_SIZE, 20);
+            // HashMap<String, Integer> alignLeft =  new HashMap<>();
+            // alignLeft.put(PrinterAttributes.KEY_ALIGN, PrinterAttributes.VAL_ALIGN_LEFT);
+            // alignLeft.put(PrinterAttributes.KEY_MARGIN_TOP, 5);
+            // alignLeft.put(PrinterAttributes.KEY_MARGIN_LEFT, 10);
+            // alignLeft.put(PrinterAttributes.KEY_MARGIN_BOTTOM, 50);
+            // alignLeft.put(PrinterAttributes.KEY_TYPEFACE, 0);
+            // alignLeft.put(PrinterAttributes.KEY_TEXT_SIZE, 20);
 
-            printerManager.printText(content, alignLeft, printerListener);            
+            // printerManager.printText(content, alignLeft, printerListener);
+            //printerManager.printImage(convertHtmlToImage(content), alignLeft, printerListener);
 
+            try {
+                if(content != null) {
+                    List<ObjJson> listObj = new ArrayList<ObjJson>();
+                    JSONArray jArray = new JSONArray(content);
+                    for(int i = 0 ; i < jArray.length() ; i++){
+                        ObjJson jObj = new ObjJson();
+                        jObj.valor = jArray.getJSONObject(i).getString("valor");
+                        jObj.tipo = jArray.getJSONObject(i).getString("tipo");
+
+                        jObj.fonteTipo = Integer.parseInt(jArray.getJSONObject(i).getString("fonteTipo"));
+                        jObj.fonteTamanho = Integer.parseInt(jArray.getJSONObject(i).getString("fonteTamanho"));
+                        //jObj.fonteFormatacao = jArray.getJSONObject(i).getString("fonteFormatacao");
+                        jObj.fonteOrientacao = jArray.getJSONObject(i).getString("fonteOrientacao");
+
+                        //jObj.imagemTamanhoX = Integer.parseInt(jArray.getJSONObject(i).getString("imagemTamanhoX"));
+                        //jObj.imagemTamanhoY = Integer.parseInt(jArray.getJSONObject(i).getString("imagemTamanhoY"));
+                        
+                        jObj.margemEsquesda = Integer.parseInt(jArray.getJSONObject(i).getString("margemEsquesda"));
+                        jObj.margemDireita = Integer.parseInt(jArray.getJSONObject(i).getString("margemDireita"));
+                        jObj.margemSuperior = Integer.parseInt(jArray.getJSONObject(i).getString("margemSuperior"));
+                        jObj.margemInferior = Integer.parseInt(jArray.getJSONObject(i).getString("margemInferior"));
+
+                        jObj.espacamentoEntreLinhas = Integer.parseInt(jArray.getJSONObject(i).getString("espacamentoEntreLinhas"));
+
+                        jObj.pesoColuna = Integer.parseInt(jArray.getJSONObject(i).getString("pesoColuna"));
+
+                        listObj.add(jObj);
+                    }
+
+                    HashMap<String, Integer> alignLeft =  new HashMap<>();
+                    alignLeft.put(PrinterAttributes.KEY_ALIGN, PrinterAttributes.VAL_ALIGN_LEFT);
+                    alignLeft.put(PrinterAttributes.KEY_MARGIN_TOP, 50);
+                    alignLeft.put(PrinterAttributes.KEY_MARGIN_BOTTOM, 50);
+                    alignLeft.put(PrinterAttributes.KEY_TYPEFACE, 0);
+                    alignLeft.put(PrinterAttributes.KEY_TEXT_SIZE, 20);
+
+                    printerManager.printText("Autorizacao: 1234532 29-08-2019 21:43", alignLeft, printerListener);
+                    printerManager.printText(" ", alignLeft, printerListener);
+                    printerManager.printText("Posto Trevao", alignLeft, printerListener);
+                    printerManager.printText("05.342.123/0001-45", alignLeft, printerListener);
+
+
+
+                    // https://developercielo.github.io/manual/cielo-lio
+                    // for(int i = 0 ; i < listObj.size() ; i++){
+                    //     HashMap<String, Integer> set =  new HashMap<>();
+                    //     if(listObj.get(i).tipo == "texto") {
+                    //         int key_align = listObj.get(i).fonteOrientacao != null || listObj.get(i).fonteOrientacao == "VAL_ALIGN_LEFT"
+                    //             ? PrinterAttributes.VAL_ALIGN_LEFT
+                    //             : listObj.get(i).fonteOrientacao == "VAL_ALIGN_RIGHT"
+                    //             ? PrinterAttributes.VAL_ALIGN_RIGHT
+                    //             : PrinterAttributes.VAL_ALIGN_CENTER;
+                    //         set.put(PrinterAttributes.KEY_ALIGN, key_align);
+                    //         set.put(PrinterAttributes.KEY_TEXT_SIZE, listObj.get(i).fonteTamanho);
+                    //         // Trabalha com um inteiro de 0 a 8, onde cada um é uma fonte diferente.
+                    //         //set.put(PrinterAttributes.KEY_TYPE_FACE, listObj.get(i).fonteTipo);
+                    //         set.put(PrinterAttributes.KEY_MARGIN_LEFT, listObj.get(i).margemEsquesda);
+                    //         set.put(PrinterAttributes.KEY_MARGIN_RIGHT, listObj.get(i).margemDireita);
+                    //         set.put(PrinterAttributes.KEY_MARGIN_TOP, listObj.get(i).margemSuperior);
+                    //         set.put(PrinterAttributes.KEY_MARGIN_BOTTOM, listObj.get(i).margemInferior);
+                    //         set.put(PrinterAttributes.KEY_LINE_SPACE, listObj.get(i).espacamentoEntreLinhas);
+                    //         // Varíavel utilizada quando se trbaalho com impressão de múltiplas colunas, 
+                    //         // para escolher o peso de cada coluna.
+                    //         // set.put(PrinterAttributes.KEY_WEIGHT, listObj.get(i).pesoColuna);
+                    //     }
+                    //     printerManager.printText(listObj.get(i).valor, set, printerListener);
+                    // }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            
         });
     }
+
+    public class ObjJson {
+        String id = "";
+		String valor = "";
+		String tipo = "";
+		
+		// se tipo for fonte usar estes parametros
+		int fonteTipo;
+		int fonteTamanho;
+		//int fonteFormatacao;
+		String fonteOrientacao;
+		
+		// se tipo for imagem usar estes parametros
+		// int imagemTamanhoX;
+		// int imagemTamanhoY;
+
+		// definicao de margens
+        int margemEsquesda;
+        int margemDireita;
+        int margemSuperior;
+        int margemInferior;
+
+        int espacamentoEntreLinhas;
+
+        int pesoColuna;
+	}
+
+//     private Bitmap convertHtmlToImage (String html) {
+
+//         html = "<div class='label label-ios'><p>Autorização 1148975</p><p padding-bottom=''>25/08/2019 16:33</p><p>Posto Trevão</p><p>Futuravix</p><p>Motorista: MOTORISTAS DIVERSOS</p><p>Veículo: MRT0033</p><p>Produto: Gasolina Comum</p><p>Qtd: 100</p><p>Valor: 100</p></div>";
+// System.out.println(html);
+        
+        
+//         JLabel label = new JLabel(html);
+//         label.setSize(200, 120);
+        
+//         BufferedImage image = new BufferedImage(label.getWidth(), label.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        
+//         {
+//             // paint the html to an image
+//             Graphics g = image.getGraphics();
+//             g.setColor(Color.BLACK);
+//             label.paint(g);
+//             g.dispose();
+//         }
+        
+//         // get the byte array of the image (as jpeg)
+//         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//         byte[] bytes = null;
+//         try {
+//             ImageIO.write(image, "bmp", baos);
+//             bytes = baos.toByteArray();
+//         } catch (Exception ex) {
+
+//         }
+        
+
+// System.out.println(bytes);
+//         //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cielo);
+//         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//         printerManager.printImage(bitmap, alignCenter, printerListener);
+//         return bitmap;
+//     }
 
     /**
      * Sends the result back to the client.
