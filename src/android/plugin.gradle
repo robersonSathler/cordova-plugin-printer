@@ -1,0 +1,9 @@
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation "com.cielo.lio:order-manager:1.4.0"
+}
+
